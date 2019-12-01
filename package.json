@@ -1,0 +1,11 @@
+{
+	"private": true,
+
+	"name": "advent-of-code-2019",
+	"version": "1.0.0",
+
+	"scripts": {
+		"star1": "sh ./stars/star1.sh run",
+		"star2": "sh ./stars/star2.sh run"
+	}
+}
