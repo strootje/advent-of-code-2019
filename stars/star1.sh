@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 # Imports
+source ./_shared/consts.sh
 source ./_shared/logger.sh
 source ./_shared/download.sh
 

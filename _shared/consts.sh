@@ -4,3 +4,7 @@
 
 # Variables
 TMPDIR=./input
+
+run_noop() {
+	echo -e
+}
