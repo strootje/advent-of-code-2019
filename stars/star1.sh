@@ -8,16 +8,10 @@ source ./_shared/download.sh
 # Variables
 INPUT_URL="https://adventofcode.com/2019/day/1/input"
 
-round_down() {
-	numerator=$1
-	denominator=$2
-	echo "scale=0; $numerator/$denominator" | bc -l
-}
-
 calculate_fuel() {
 	MASS=$1
 
-	rounded=$(round_down $MASS 3)
+	rounded=$(($MASS/3))
 	subtracted=$(($rounded - 2))
 	echo $subtracted
 }
