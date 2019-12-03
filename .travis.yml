@@ -1,13 +1,15 @@
 language: generic
-addons:
-  apt:
-    sources:
-    - debian-sid
-    packages:
 
-    - 
+cache:
+  npm: true
+  directories:
+  - $HOME/.pnpm-store/
+
 before_install:
-  - sudo apt-get -y --allow-unauthenticated install shellcheck
+- curl -L https://unpkg.com/@pnpm/self-installer | node
+
+install:
+- pnpm i
 
 script:
 - npm run lint
