@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
 # Imports
-source ./_shared/consts.sh
-source ./_shared/logger.sh
-source ./_shared/download.sh
+. ./_shared/consts.sh
+. ./_shared/logger.sh
+. ./_shared/download.sh
 
 # Variables
 INPUT_URL="https://adventofcode.com/2019/day/1/input"

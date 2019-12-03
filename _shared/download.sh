@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Imports
-source ./_shared/consts.sh
+. ./_shared/consts.sh
 
 # Variables
 # -none-

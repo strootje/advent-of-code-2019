@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 # Imports
-source ./_shared/logger.sh
-source ./stars/star2.sh 0
+. ./_shared/logger.sh
+. ./stars/star2.sh 0
 
 # Variables
 # -none-

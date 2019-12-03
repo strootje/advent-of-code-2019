@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Imports
-source ./_shared/logger.sh
+. ./_shared/logger.sh
 
 # Variables
 # -none-
