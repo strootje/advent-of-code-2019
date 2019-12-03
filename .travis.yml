@@ -10,5 +10,5 @@ before_install:
   - sudo apt-get -y --allow-unauthenticated install shellcheck
 
 script:
-- shellcheck -a -S warning -s bash ./test/test.sh
+- npm run lint
 - npm run test
