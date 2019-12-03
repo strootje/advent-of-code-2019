@@ -7,7 +7,7 @@ source ./_shared/logger.sh
 # -none-
 
 run_main() {
-	TESTS=./test/*.test.sh
+	TESTS=./**/*.test.sh
 
 	for test in $TESTS; do
 		info "Running test '$test'"
