@@ -53,11 +53,11 @@ run_program() {
 
 	if [ $OPCODE -eq 1 ]; then
 		VRES=$(($VNUM1 + $VNUM2))
-		# info "adding $VNUM1 + $VNUM2 = $VRES"
+		info "adding $VNUM1 + $VNUM2 = $VRES"
 		MEMORY[$LRES]=$VRES
 	elif [ $OPCODE -eq 2 ]; then
 		VRES=$(($VNUM1 * $VNUM2))
-		# info "multi $VNUM1 * $VNUM2 = $VRES"
+		info "multi $VNUM1 * $VNUM2 = $VRES"
 		MEMORY[$LRES]=$VRES
 	else
 		fatal "Unknown opcode $OPCODE"
