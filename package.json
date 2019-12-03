@@ -1,17 +1,18 @@
 {
 	"private": true,
-
 	"name": "advent-of-code-2019",
 	"version": "1.0.0",
-
 	"scripts": {
 		"lint": "shellcheck -ax -S warning -s bash ./test/test.sh",
-		"lint:win": "shellcheck -ax -S warning -s bash -e SC1017 ./test/test.sh",
+		"pretest": "pnpm run lint",
 		"test": "sh ./test/test.sh run",
 		"star1": "sh ./stars/star1.sh run",
 		"star2": "sh ./stars/star2.sh run",
 		"star3": "sh ./stars/star3.sh run",
 		"star4": "sh ./stars/star4.sh run",
 		"star5": "sh ./stars/star5.sh run"
+	},
+	"devDependencies": {
+		"shellcheck": "^0.4.1"
 	}
 }

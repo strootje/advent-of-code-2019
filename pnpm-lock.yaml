@@ -1,0 +1,12 @@
+devDependencies:
+  shellcheck: 0.4.1
+lockfileVersion: 5.1
+packages:
+  /shellcheck/0.4.1:
+    dev: true
+    hasBin: true
+    requiresBuild: true
+    resolution:
+      integrity: sha512-tUQ/ccl9jYG8K3v/im94pk8hRkwk7AIgg8iXy7bJ4y5DGJRqtJTFYUWKy88HN9X+Ggxl371rvw0FqXfCRfLSSw==
+specifiers:
+  shellcheck: ^0.4.1
