@@ -10,7 +10,8 @@ run_main() {
 	TESTS=./test/*.test.sh
 
 	for test in $TESTS; do
-		info "Running test '$test'"
+		info ""
+		info "Running suite '$test'"
 		. $test run
 	done
 }

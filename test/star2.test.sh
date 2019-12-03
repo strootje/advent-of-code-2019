@@ -22,13 +22,13 @@ test_CalculateFuelRecursive_Mass_IsFuel() {
 }
 
 run_main() {
-	info "test_CalculateFuelRecursive_Mass_IsFuel 14 2"
+	info "- test_CalculateFuelRecursive_Mass_IsFuel 14 2"
 	test_CalculateFuelRecursive_Mass_IsFuel 14 2
 
-	info "test_CalculateFuelRecursive_Mass_IsFuel 1969 966"
+	info "- test_CalculateFuelRecursive_Mass_IsFuel 1969 966"
 	test_CalculateFuelRecursive_Mass_IsFuel 1969 966
 
-	info "test_CalculateFuelRecursive_Mass_IsFuel 100756 50346"
+	info "- test_CalculateFuelRecursive_Mass_IsFuel 100756 50346"
 	test_CalculateFuelRecursive_Mass_IsFuel 100756 50346
 }
 

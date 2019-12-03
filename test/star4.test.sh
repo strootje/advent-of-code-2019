@@ -27,7 +27,7 @@ test_RunSearchForOutcome_ExpectedOutcome_IsFound() {
 
 run_main() {
     DATA1=3654868
-	info "test_RunSearchForOutcome_ExpectedOutcome_IsFound $DATA1 1202"
+	info "- test_RunSearchForOutcome_ExpectedOutcome_IsFound $DATA1 1202"
     test_RunSearchForOutcome_ExpectedOutcome_IsFound $DATA1 1202
 }
 

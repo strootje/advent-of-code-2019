@@ -22,16 +22,16 @@ test_CalculateFuel_Mass_IsFuel() {
 }
 
 run_main() {
-	info "test_CalculateFuel_Mass_IsFuel 12 2"
+	info "- test_CalculateFuel_Mass_IsFuel 12 2"
 	test_CalculateFuel_Mass_IsFuel 12 2
 
-	info "test_CalculateFuel_Mass_IsFuel 14 2"
+	info "- test_CalculateFuel_Mass_IsFuel 14 2"
 	test_CalculateFuel_Mass_IsFuel 14 2
 
-	info "test_CalculateFuel_Mass_IsFuel 1969 654"
+	info "- test_CalculateFuel_Mass_IsFuel 1969 654"
 	test_CalculateFuel_Mass_IsFuel 1969 654
 
-	info "test_CalculateFuel_Mass_IsFuel 100756 33583"
+	info "- test_CalculateFuel_Mass_IsFuel 100756 33583"
 	test_CalculateFuel_Mass_IsFuel 100756 33583
 }
 
