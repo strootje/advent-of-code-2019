@@ -3,6 +3,8 @@ language: generic
 addons:
   apt:
     update: true
+    packages:
+    - bash
 
 cache:
   npm: true
