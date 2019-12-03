@@ -12,6 +12,7 @@ test_RunAllPrograms_WithData_WorksOut() {
 	DATA=$1
 	EXP=$2
 	parse_codes $DATA
+	reset_memory
 
 	# Act
 	run_all_programs

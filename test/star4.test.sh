@@ -1,31 +1,34 @@
 #!/usr/bin/env bash
 
 # Imports
+. ./_shared/consts.sh
 . ./_shared/logger.sh
 . ./stars/star4.sh 0
 
 # Variables
 # -none-
 
-test_RunAllPrograms_WithData_WorksOut() {
+test_RunSearchForOutcome_ExpectedOutcome_IsFound() {
 	# Arrange
 	DATA=$1
 	EXP=$2
-	parse_codes $DATA
+    INITIAL_NOUN=12
+    INITIAL_VERB=2
+	get_codes $TMPDIR/day2
 
 	# Act
-	run_all_programs
+	run_search_for_output $DATA
 
 	# Assert
-	if [ ${MEMORY[0]} -ne $EXP ]; then
-		fatal "Result does not match $EXP instead is ${MEMORY[0]}"
+	if [ $ANWSER -ne $EXP ]; then
+		fatal "Result does not match $EXP instead is $ANWSER"
 	fi
 }
 
 run_main() {
-	DATA1="1,9,10,3,2,3,11,0,99,30,40,50"
-	info "test_RunAllPrograms_WithData_WorksOut '$DATA1' 3500"
-	test_RunAllPrograms_WithData_WorksOut $DATA1 3500
+    DATA1=3654868
+	info "test_RunSearchForOutcome_ExpectedOutcome_IsFound $DATA1 1202"
+    test_RunSearchForOutcome_ExpectedOutcome_IsFound $DATA1 1202
 }
 
 case "$1" in

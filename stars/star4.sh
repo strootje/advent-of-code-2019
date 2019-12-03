@@ -9,21 +9,46 @@
 # Variables
 INPUT_URL="https://adventofcode.com/2019/day/2/input"
 LOOKUP_VAL=19690720
+ANWSER=-1
+INITIAL_NOUN=0
+INITIAL_VERB=0
 
-run_all_programs_wtih_reset() {
-	reset_memory
+run_search_for_output() {
+	EXPECTED=$1
 
-	PROGRAM=0
-	while [ ${MEMORY[$PROGRAM]} -ne 99 ]; do
-		OPCODE=${MEMORY[$PROGRAM]}
-		INUM1=$(($PROGRAM + 1))
-		INUM2=$(($PROGRAM + 2))
-		IRES=$(($PROGRAM + 3))
+	NOUN=$INITIAL_NOUN
+	VERB=$INITIAL_VERB
 
-		run_program $OPCODE $INUM1 $INUM2 $IRES
+	OUTPUT=-1
+	while [ $OUTPUT -eq -1 ] && [ $NOUN -le 99 ]; do
+		while [ $OUTPUT -eq -1 ] && [ $VERB -le 99 ]; do
+			reset_memory
+			MEMORY[1]=$NOUN
+			MEMORY[2]=$VERB
 
-		PROGRAM=$(($PROGRAM + 4))
+			run_all_programs
+
+			OUTCOME=${MEMORY[0]}
+			debug "TRIED NOUN=$NOUN VERB=$VERB = $OUTCOME"
+			if [ $OUTCOME -eq $EXPECTED ]; then
+				OUTPUT=$OUTCOME
+			fi
+
+			if [ $OUTPUT -eq -1 ]; then
+				VERB=$(($VERB + 1))
+			fi
+		done
+
+		if [ $OUTPUT -eq -1 ]; then
+			NOUN=$(($NOUN + 1))
+			VERB=0
+		fi
 	done
+
+	ANWSER=$(((100 * $NOUN) + $VERB))
+	debug "+++++++++++++++++++++++++++++++++"
+	debug "+++ FOUND at $NOUN $VERB = $ANWSER"
+	debug "+++++++++++++++++++++++++++++++++"
 }
 
 run_main() {
@@ -33,13 +58,9 @@ run_main() {
 	get_codes $INPUT_FILE
 	info "Found ($COUNT) entries"
 
-	# fix program
-	CODES[1]=12
-	CODES[2]=2
+	run_search_for_output $LOOKUP_VAL
 
-	run_all_programs_wtih_reset
-
-	VRES0=${CODES[0]}
+	VRES0=${MEMORY[0]}
 	info "Program done; Value of pos(0) = '$VRES0'"
 }
 

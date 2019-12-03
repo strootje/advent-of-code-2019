@@ -38,45 +38,58 @@ reset_memory() {
 	MEMORY=("${CODES[@]}")
 }
 
+calculate() {
+	OPCODE=$1
+	NUM1=$2
+	NUM2=$3
+
+	if [ $OPCODE -eq 1 ]; then
+		echo $(($NUM1 + $NUM2))
+	elif [ $OPCODE -eq 2 ]; then
+		echo $(($NUM1 * $NUM2))
+	else
+		fatal "Unknown opcode $OPCODE"
+	fi
+}
+
 run_program() {
 	OPCODE=$1
-	INUM1=$2
-	INUM2=$3
-	IRES=$4
-
-	LNUM1=${MEMORY[$INUM1]}
-	LNUM2=${MEMORY[$INUM2]}
-	LRES=${MEMORY[$IRES]}
+	LNUM1=$2
+	LNUM2=$3
+	LRES=$4
 
 	VNUM1=${MEMORY[$LNUM1]}
 	VNUM2=${MEMORY[$LNUM2]}
 
 	if [ $OPCODE -eq 1 ]; then
-		VRES=$(($VNUM1 + $VNUM2))
-		info "adding $VNUM1 + $VNUM2 = $VRES"
+		VRES=$(calculate $OPCODE $VNUM1 $VNUM2)
+		trace "ADD	{ '$VNUM1'($LNUM1) + '$VNUM2'($LNUM2) } -> '$VRES'($LRES)"
 		MEMORY[$LRES]=$VRES
 	elif [ $OPCODE -eq 2 ]; then
-		VRES=$(($VNUM1 * $VNUM2))
-		info "multi $VNUM1 * $VNUM2 = $VRES"
+		VRES=$(calculate $OPCODE $VNUM1 $VNUM2)
+		trace "MULTI	{ '$VNUM1'($LNUM1) * '$VNUM2'($LNUM2) } -> '$VRES'($LRES)"
 		MEMORY[$LRES]=$VRES
 	else
 		fatal "Unknown opcode $OPCODE"
 	fi
-
-	# declare -p MEMORY
 }
 
 run_all_programs() {
-	reset_memory
-
 	PROGRAM=0
 	while [ ${MEMORY[$PROGRAM]} -ne 99 ]; do
-		OPCODE=${MEMORY[$PROGRAM]}
 		INUM1=$(($PROGRAM + 1))
 		INUM2=$(($PROGRAM + 2))
 		IRES=$(($PROGRAM + 3))
 
-		run_program $OPCODE $INUM1 $INUM2 $IRES
+		OPCODE=${MEMORY[$PROGRAM]}
+		LNUM1=${MEMORY[$INUM1]}
+		LNUM2=${MEMORY[$INUM2]}
+		LRES=${MEMORY[$IRES]}
+
+		trace "Running program $PKEY"
+		trace "===================================="
+		run_program $OPCODE $LNUM1 $LNUM2 $LRES
+		trace ""
 
 		PROGRAM=$(($PROGRAM + 4))
 	done
@@ -88,6 +101,7 @@ run_main() {
 
 	get_codes $INPUT_FILE
 	info "Found ($COUNT) entries"
+	reset_memory
 
 	# fix program
 	CODES[1]=12
@@ -95,7 +109,7 @@ run_main() {
 
 	run_all_programs
 
-	VRES0=${CODES[0]}
+	VRES0=${MEMORY[0]}
 	info "Program done; Value of pos(0) = '$VRES0'"
 }
 
