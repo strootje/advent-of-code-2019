@@ -1,4 +1,11 @@
-language: generic
+language: bash
+addons:
+  apt:
+    sources:
+    - debian-sid
+    packages:
+    - shellcheck
 
 script:
+- shellcheck
 - npm run test

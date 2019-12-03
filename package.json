@@ -9,6 +9,7 @@
 		"star1": "sh ./stars/star1.sh run",
 		"star2": "sh ./stars/star2.sh run",
 		"star3": "sh ./stars/star3.sh run",
-		"star4": "sh ./stars/star4.sh run"
+		"star4": "sh ./stars/star4.sh run",
+		"star5": "sh ./stars/star5.sh run"
 	}
 }
