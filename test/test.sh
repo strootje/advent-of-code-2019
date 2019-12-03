@@ -7,12 +7,13 @@
 # -none-
 
 run_main() {
-	TESTS=./test/*.test.sh
+	TESTS="./test/*.test.sh"
 
 	for test in $TESTS; do
 		info ""
 		info "Running suite '$test'"
-		. $test run
+		# shellcheck source=test/*.test.sh
+		. "$test" run
 	done
 }
 

@@ -1,3 +1,4 @@
 {
-    "shellcheck.useWorkspaceRootAsCwd": true
+    "shellcheck.useWorkspaceRootAsCwd": true,
+    "shellcheck.exclude": ["SC1017"]
 }

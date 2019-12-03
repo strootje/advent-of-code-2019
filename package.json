@@ -5,6 +5,8 @@
 	"version": "1.0.0",
 
 	"scripts": {
+		"lint": "shellcheck -ax -S warning -s bash ./test/test.sh",
+		"lint:win": "shellcheck -ax -S warning -s bash -e SC1017 ./test/test.sh",
 		"test": "sh ./test/test.sh run",
 		"star1": "sh ./stars/star1.sh run",
 		"star2": "sh ./stars/star2.sh run",
