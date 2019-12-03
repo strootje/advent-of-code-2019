@@ -15,7 +15,7 @@ COUNT=0
 get_codes() {
 	FILE=$1
 
-	parse_codes $(cat $FILE)
+	parse_codes "$(cat "$FILE")"
 }
 
 parse_codes() {
@@ -25,12 +25,13 @@ parse_codes() {
 	CODES=()
 
 	IFS=","
-	while read code; do
+	while read -r code; do
+		# shellcheck disable=SC2068
 		for i in ${code[@]}; do
 			CODES[$COUNT]=$i
-			COUNT=$(($COUNT + 1))
+			COUNT=$((COUNT + 1))
 		done
-	done <<< $RAW
+	done <<< "$RAW"
 	unset IFS
 }
 
@@ -43,10 +44,10 @@ calculate() {
 	NUM1=$2
 	NUM2=$3
 
-	if [ $OPCODE -eq 1 ]; then
-		echo $(($NUM1 + $NUM2))
-	elif [ $OPCODE -eq 2 ]; then
-		echo $(($NUM1 * $NUM2))
+	if [ "$OPCODE" -eq 1 ]; then
+		echo $((NUM1 + NUM2))
+	elif [ "$OPCODE" -eq 2 ]; then
+		echo $((NUM1 * NUM2))
 	else
 		fatal "Unknown opcode $OPCODE"
 	fi
@@ -61,12 +62,12 @@ run_program() {
 	VNUM1=${MEMORY[$LNUM1]}
 	VNUM2=${MEMORY[$LNUM2]}
 
-	if [ $OPCODE -eq 1 ]; then
-		VRES=$(calculate $OPCODE $VNUM1 $VNUM2)
+	if [ "$OPCODE" -eq 1 ]; then
+		VRES=$(calculate "$OPCODE" "$VNUM1" "$VNUM2")
 		trace "ADD	{ '$VNUM1'($LNUM1) + '$VNUM2'($LNUM2) } -> '$VRES'($LRES)"
 		MEMORY[$LRES]=$VRES
-	elif [ $OPCODE -eq 2 ]; then
-		VRES=$(calculate $OPCODE $VNUM1 $VNUM2)
+	elif [ "$OPCODE" -eq 2 ]; then
+		VRES=$(calculate "$OPCODE" "$VNUM1" "$VNUM2")
 		trace "MULTI	{ '$VNUM1'($LNUM1) * '$VNUM2'($LNUM2) } -> '$VRES'($LRES)"
 		MEMORY[$LRES]=$VRES
 	else
@@ -77,9 +78,9 @@ run_program() {
 run_all_programs() {
 	PROGRAM=0
 	while [ ${MEMORY[$PROGRAM]} -ne 99 ]; do
-		INUM1=$(($PROGRAM + 1))
-		INUM2=$(($PROGRAM + 2))
-		IRES=$(($PROGRAM + 3))
+		INUM1=$((PROGRAM + 1))
+		INUM2=$((PROGRAM + 2))
+		IRES=$((PROGRAM + 3))
 
 		OPCODE=${MEMORY[$PROGRAM]}
 		LNUM1=${MEMORY[$INUM1]}
@@ -88,10 +89,10 @@ run_all_programs() {
 
 		trace "Running program $PKEY"
 		trace "===================================="
-		run_program $OPCODE $LNUM1 $LNUM2 $LRES
+		run_program "$OPCODE" "$LNUM1" "$LNUM2" "$LRES"
 		trace ""
 
-		PROGRAM=$(($PROGRAM + 4))
+		PROGRAM=$((PROGRAM + 4))
 	done
 }
 
@@ -99,7 +100,7 @@ run_main() {
 	info "Downloading input file"
 	INPUT_FILE=$(download "day2" "$INPUT_URL")
 
-	get_codes $INPUT_FILE
+	get_codes "$INPUT_FILE"
 	info "Found ($COUNT) entries"
 	reset_memory
 

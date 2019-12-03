@@ -13,10 +13,10 @@ test_CalculateFuel_Mass_IsFuel() {
 	FUEL=$2
 
 	# Act
-	RESULT=$(calculate_fuel $MASS)
+	RESULT=$(calculate_fuel "$MASS")
 
 	# Assert
-	if [ $RESULT -ne $FUEL ]; then
+	if [ "$RESULT" -ne "$FUEL" ]; then
 		fatal "Fuel does not equel $FUEL"
 	fi
 }

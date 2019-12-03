@@ -30,22 +30,22 @@ run_search_for_output() {
 
 			OUTCOME=${MEMORY[0]}
 			debug "TRIED NOUN=$NOUN VERB=$VERB = $OUTCOME"
-			if [ $OUTCOME -eq $EXPECTED ]; then
+			if [ $OUTCOME -eq "$EXPECTED" ]; then
 				OUTPUT=$OUTCOME
 			fi
 
 			if [ $OUTPUT -eq -1 ]; then
-				VERB=$(($VERB + 1))
+				VERB=$((VERB + 1))
 			fi
 		done
 
 		if [ $OUTPUT -eq -1 ]; then
-			NOUN=$(($NOUN + 1))
+			NOUN=$((NOUN + 1))
 			VERB=0
 		fi
 	done
 
-	ANWSER=$(((100 * $NOUN) + $VERB))
+	ANWSER=$(((100 * NOUN) + VERB))
 	debug "+++++++++++++++++++++++++++++++++"
 	debug "+++ FOUND at $NOUN $VERB = $ANWSER"
 	debug "+++++++++++++++++++++++++++++++++"
@@ -55,7 +55,7 @@ run_main() {
 	info "Downloading input file"
 	INPUT_FILE=$(download "day2" "$INPUT_URL")
 
-	get_codes $INPUT_FILE
+	get_codes "$INPUT_FILE"
 	info "Found ($COUNT) entries"
 
 	run_search_for_output $LOOKUP_VAL

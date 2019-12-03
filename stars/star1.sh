@@ -11,8 +11,8 @@ INPUT_URL="https://adventofcode.com/2019/day/1/input"
 calculate_fuel() {
 	MASS=$1
 
-	rounded=$(($MASS/3))
-	subtracted=$(($rounded - 2))
+	rounded=$((MASS/3))
+	subtracted=$((rounded - 2))
 	echo $subtracted
 }
 
@@ -22,11 +22,11 @@ run_main() {
 
 	NUM=0
 	FUEL=0
-	while read line; do
-		CALCULATED=$(calculate_fuel $line)
-		FUEL=$(($FUEL + $CALCULATED))
-		NUM=$(($NUM + 1))
-	done < $INPUT_FILE
+	while read -r line; do
+		CALCULATED=$(calculate_fuel "$line")
+		FUEL=$((FUEL + CALCULATED))
+		NUM=$((NUM + 1))
+	done < "$INPUT_FILE"
 
 	info "Found ($NUM) entries with a total of ($FUEL) fuel"
 }

@@ -12,7 +12,7 @@ run_main() {
 	for test in $TESTS; do
 		info ""
 		info "Running suite '$test'"
-		# shellcheck source=test/*.test.sh
+		# shellcheck disable=SC1090
 		. "$test" run
 	done
 }

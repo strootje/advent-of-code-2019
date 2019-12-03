@@ -11,14 +11,14 @@ test_RunAllPrograms_WithData_WorksOut() {
 	# Arrange
 	DATA=$1
 	EXP=$2
-	parse_codes $DATA
+	parse_codes "$DATA"
 	reset_memory
 
 	# Act
 	run_all_programs
 
 	# Assert
-	if [ ${MEMORY[0]} -ne $EXP ]; then
+	if [ "${MEMORY[0]}" -ne "$EXP" ]; then
 		fatal "Result does not match $EXP instead is ${MEMORY[0]}"
 	fi
 }

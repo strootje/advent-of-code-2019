@@ -3,7 +3,7 @@
 	"name": "advent-of-code-2019",
 	"version": "1.0.0",
 	"scripts": {
-		"lint": "shellcheck -ax -S warning -s bash ./test/test.sh",
+		"lint": "shellcheck -ax -S info -s bash ./test/test.sh",
 		"pretest": "pnpm run lint",
 		"test": "sh ./test/test.sh run",
 		"star1": "sh ./stars/star1.sh run",

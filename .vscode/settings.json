@@ -1,4 +1,5 @@
 {
     "shellcheck.useWorkspaceRootAsCwd": true,
-    "shellcheck.exclude": ["SC1017"]
+    "shellcheck.exclude": ["SC1017"],
+    "shellcheck.customArgs": ["-x"]
 }

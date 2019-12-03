@@ -13,10 +13,10 @@ test_CalculateFuelRecursive_Mass_IsFuel() {
 	FUEL=$2
 
 	# Act
-	RESULT=$(calculate_fuel_recursive $MASS)
+	RESULT=$(calculate_fuel_recursive "$MASS")
 
 	# Assert
-	if [ $RESULT -ne $FUEL ]; then
+	if [ "$RESULT" -ne "$FUEL" ]; then
 		fatal "Fuel does not equel $FUEL"
 	fi
 }
