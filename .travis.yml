@@ -4,7 +4,10 @@ addons:
     sources:
     - debian-sid
     packages:
-    - shellcheck
+
+    - 
+before_install:
+  - sudo apt-get -y --allow-unauthenticated install shellcheck
 
 script:
 - shellcheck
