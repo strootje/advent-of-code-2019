@@ -20,6 +20,7 @@ fatal() {
 	if ! [ -z "$LOGLVL" ] && [ $LOGLVL -ge $LVLFATAL ]; then
 		log "FATAL" "$@"
 	fi
+
 	exit 1
 }
 
