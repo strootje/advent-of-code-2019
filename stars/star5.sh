@@ -203,10 +203,10 @@ calculate_intersection() {
 	if [ "$WIRE1_BEGIN_X" == "$WIRE1_FINAL_X" ] && [ "$WIRE2_BEGIN_Z" == "$WIRE2_BEGIN_Z" ]; then
 		trace "Line 1 is horizontal && Line 2 is vertical"
 
-		if !(([ "$WIRE1_BEGIN_X" -gt "$WIRE2_BEGIN_X" ] && [ "$WIRE1_BEGIN_X" -le "$WIRE2_FINAL_X" ]) || ([ "$WIRE1_BEGIN_X" -le "$WIRE2_BEGIN_X" ] && [ "$WIRE1_BEGIN_X" -gt "$WIRE2_FINAL_X" ])); then
+		if ! { { [ "$WIRE1_BEGIN_X" -gt "$WIRE2_BEGIN_X" ] && [ "$WIRE1_BEGIN_X" -le "$WIRE2_FINAL_X" ]; } || { [ "$WIRE1_BEGIN_X" -le "$WIRE2_BEGIN_X" ] && [ "$WIRE1_BEGIN_X" -gt "$WIRE2_FINAL_X" ]; }; }; then
 			trace "Line1X not between line2X"
 			echo ""
-		elif !(([ "$WIRE2_BEGIN_Z" -gt "$WIRE1_BEGIN_Z" ] && [ "$WIRE2_BEGIN_Z" -le "$WIRE1_FINAL_Z" ]) || ([ "$WIRE2_BEGIN_Z" -le "$WIRE1_BEGIN_Z" ] && [ "$WIRE2_BEGIN_Z" -gt "$WIRE1_FINAL_Z" ])); then
+		elif ! { { [ "$WIRE2_BEGIN_Z" -gt "$WIRE1_BEGIN_Z" ] && [ "$WIRE2_BEGIN_Z" -le "$WIRE1_FINAL_Z" ]; } || { [ "$WIRE2_BEGIN_Z" -le "$WIRE1_BEGIN_Z" ] && [ "$WIRE2_BEGIN_Z" -gt "$WIRE1_FINAL_Z" ]; }; }; then
 			trace "Line1Z not between line2Z"
 			echo ""
 		else
@@ -216,10 +216,10 @@ calculate_intersection() {
 	elif [ "$WIRE1_BEGIN_Z" == "$WIRE1_FINAL_Z" ] && [ "$WIRE2_BEGIN_X" == "$WIRE2_BEGIN_X" ]; then
 		trace "Line 1 is vertical && Line 2 is horizontal"
 
-		if !(([ "$WIRE1_BEGIN_Z" -gt "$WIRE2_BEGIN_Z" ] && [ "$WIRE1_BEGIN_Z" -le "$WIRE2_FINAL_Z" ]) || ([ "$WIRE1_BEGIN_Z" -le "$WIRE2_BEGIN_Z" ] && [ "$WIRE1_BEGIN_Z" -gt "$WIRE2_FINAL_Z" ])); then
+		if ! { { [ "$WIRE1_BEGIN_Z" -gt "$WIRE2_BEGIN_Z" ] && [ "$WIRE1_BEGIN_Z" -le "$WIRE2_FINAL_Z" ]; } || { [ "$WIRE1_BEGIN_Z" -le "$WIRE2_BEGIN_Z" ] && [ "$WIRE1_BEGIN_Z" -gt "$WIRE2_FINAL_Z" ]; }; }; then
 			trace "Line1Z not between line2Z"
 			echo ""
-		elif !(([ "$WIRE2_BEGIN_X" -gt "$WIRE1_BEGIN_X" ] && [ "$WIRE2_BEGIN_X" -le "$WIRE1_FINAL_X" ]) || ([ "$WIRE2_BEGIN_X" -le "$WIRE1_BEGIN_X" ] && [ "$WIRE2_BEGIN_X" -gt "$WIRE1_FINAL_X" ])); then
+		elif ! { { [ "$WIRE2_BEGIN_X" -gt "$WIRE1_BEGIN_X" ] && [ "$WIRE2_BEGIN_X" -le "$WIRE1_FINAL_X" ]; } || { [ "$WIRE2_BEGIN_X" -le "$WIRE1_BEGIN_X" ] && [ "$WIRE2_BEGIN_X" -gt "$WIRE1_FINAL_X" ]; }; }; then
 			trace "Line1X not between line2X"
 			echo ""
 		else
