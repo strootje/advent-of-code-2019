@@ -6,6 +6,7 @@
 . ./_shared/download.sh
 
 # Variables
+LOGLVL=$LVLTRACE
 INPUT_URL="https://adventofcode.com/2019/day/1/input"
 
 declare -a WIRE_NAMES=("RED" "GREEN" "YELLOW")

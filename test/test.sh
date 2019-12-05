@@ -14,6 +14,12 @@ run_main() {
 		info "Running suite '$test'"
 		# shellcheck disable=SC1090
 		. "$test" run
+
+		# FUNCS=("$(declare -F)")
+		# for func in "${FUNCS[@]}"; do
+		# 	NAME=${func}
+		# 	echo "$NAME"
+		# done
 	done
 }
 
