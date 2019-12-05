@@ -6,7 +6,6 @@
 . ./_shared/download.sh
 
 # Variables
-LOGLVL=$LVLTRACE
 INPUT_URL="https://adventofcode.com/2019/day/1/input"
 
 declare -a WIRE_NAMES=("RED" "GREEN" "YELLOW")
@@ -109,20 +108,6 @@ validate_wire_line() {
 	echo "$LINE_INDEX"
 }
 
-calculate_manhattan() {
-	BEGIN_X=$1
-	BEGIN_Z=$2
-	FINAL_X=$3
-	FINAL_Z=$4
-
-	DIFF_X=$((BEGIN_X - FINAL_X))
-	DIFF_Z=$((BEGIN_Z - FINAL_Z))
-	LINE_LENGTH=$((DIFF_X + DIFF_Z))
-	LINE_LENGTH_ABS=${LINE_LENGTH##-}
-
-	echo "$LINE_LENGTH_ABS"
-}
-
 get_wire_offset() {
 	WIRE_COLOR=$(validate_wire "$1")
 	WIRE_INDEX=${WIRES[$WIRE_COLOR]}
@@ -185,6 +170,24 @@ debug_line() {
 	debug "Wire '$WIRE_COLOR', Line '$LINE_INDEX', From ($BEGIN_X, $BEGIN_Z), To ($FINAL_X, $FINAL_Z), ManhattanLength: '$LINE_LENGTH'"
 }
 
+calculate_manhattan() {
+	BEGIN_X=$1
+	BEGIN_Z=$2
+	FINAL_X=$3
+	FINAL_Z=$4
+
+	DIFF_X_=$((BEGIN_X - FINAL_X))
+	DIFF_X=${DIFF_X_##-}
+	DIFF_Z_=$((BEGIN_Z - FINAL_Z))
+	DIFF_Z=${DIFF_Z_##-}
+
+	trace "'$BEGIN_X' - '$FINAL_X' = '$DIFF_X' && '$BEGIN_Z' - '$FINAL_Z' = '$DIFF_Z'"
+	LINE_LENGTH=$((DIFF_X + DIFF_Z))
+	LINE_LENGTH_ABS=${LINE_LENGTH##-}
+
+	echo "$LINE_LENGTH_ABS"
+}
+
 calculate_intersection() {
 	WIRE1_BEGIN_X=$1
 	WIRE1_BEGIN_Z=$2
@@ -196,22 +199,35 @@ calculate_intersection() {
 	WIRE2_FINAL_X=$7
 	WIRE2_FINAL_Z=$8
 
-	WIRE1_A=$((WIRE1_FINAL_Z - WIRE1_BEGIN_Z))
-	WIRE1_B=$((WIRE1_FINAL_X - WIRE1_BEGIN_X))
-	WIRE1_C=$(((WIRE1_A * WIRE1_BEGIN_X) + (WIRE1_B * WIRE1_BEGIN_Z)))
+	if [ "$WIRE1_BEGIN_X" == "$WIRE1_FINAL_X" ] && [ "$WIRE2_BEGIN_Z" == "$WIRE2_BEGIN_Z" ]; then
+		trace "Line 1 is horizontal && Line 2 is vertical"
 
-	WIRE2_A=$((WIRE2_FINAL_Z - WIRE2_BEGIN_Z))
-	WIRE2_B=$((WIRE2_FINAL_X - WIRE2_BEGIN_X))
-	WIRE2_C=$(((WIRE2_A * WIRE2_BEGIN_X) + (WIRE2_B * WIRE2_BEGIN_Z)))
+		if !(([ "$WIRE1_BEGIN_X" -gt "$WIRE2_BEGIN_X" ] && [ "$WIRE1_BEGIN_X" -le "$WIRE2_FINAL_X" ]) || ([ "$WIRE1_BEGIN_X" -le "$WIRE2_BEGIN_X" ] && [ "$WIRE1_BEGIN_X" -gt "$WIRE2_FINAL_X" ])); then
+			trace "Line1X not between line2X"
+			echo ""
+		elif !(([ "$WIRE2_BEGIN_Z" -gt "$WIRE1_BEGIN_Z" ] && [ "$WIRE2_BEGIN_Z" -le "$WIRE1_FINAL_Z" ]) || ([ "$WIRE2_BEGIN_Z" -le "$WIRE1_BEGIN_Z" ] && [ "$WIRE2_BEGIN_Z" -gt "$WIRE1_FINAL_Z" ])); then
+			trace "Line1Z not between line2Z"
+			echo ""
+		else
+			trace "Lines cross at ($WIRE1_BEGIN_X, $WIRE2_BEGIN_Z)"
+			echo "$WIRE1_BEGIN_X,$WIRE2_BEGIN_Z"
+		fi
+	elif [ "$WIRE1_BEGIN_Z" == "$WIRE1_FINAL_Z" ] && [ "$WIRE2_BEGIN_X" == "$WIRE2_BEGIN_X" ]; then
+		trace "Line 1 is vertical && Line 2 is horizontal"
 
-	DELTA=$(((WIRE1_A * WIRE2_B) - (WIRE2_A * WIRE1_B)))
-
-	if [ "$DELTA" -eq 0 ]; then
-		echo ""
+		if !(([ "$WIRE1_BEGIN_Z" -gt "$WIRE2_BEGIN_Z" ] && [ "$WIRE1_BEGIN_Z" -le "$WIRE2_FINAL_Z" ]) || ([ "$WIRE1_BEGIN_Z" -le "$WIRE2_BEGIN_Z" ] && [ "$WIRE1_BEGIN_Z" -gt "$WIRE2_FINAL_Z" ])); then
+			trace "Line1Z not between line2Z"
+			echo ""
+		elif !(([ "$WIRE2_BEGIN_X" -gt "$WIRE1_BEGIN_X" ] && [ "$WIRE2_BEGIN_X" -le "$WIRE1_FINAL_X" ]) || ([ "$WIRE2_BEGIN_X" -le "$WIRE1_BEGIN_X" ] && [ "$WIRE2_BEGIN_X" -gt "$WIRE1_FINAL_X" ])); then
+			trace "Line1X not between line2X"
+			echo ""
+		else
+			trace "Lines cross at ($WIRE1_BEGIN_Z, $WIRE2_BEGIN_X)"
+			echo "$WIRE1_BEGIN_Z,$WIRE2_BEGIN_X"
+		fi
 	else
-		INTERSECT_X=$((((WIRE2_B * WIRE1_C) - (WIRE1_B * WIRE2_C)) / DELTA))
-		INTERSECT_Z=$((((WIRE1_A * WIRE2_C) - (WIRE2_A * WIRE1_C)) / DELTA))
-		echo "$INTERSECT_X,$INTERSECT_Z"
+		trace "Lines are parrallel and will never intersect"
+		echo ""
 	fi
 }
 
@@ -246,8 +262,9 @@ calculate_closests_intersection_to_start() {
 			INTERSECT_X=${INTERSECTION%%,*}
 			INTERSECT_Z=${INTERSECTION##*,}
 
-			if [ -z "$INTERSECTION" ]; then
+			if [ -n "$INTERSECTION" ]; then
 				DISTANCE_TO_START=$(calculate_manhattan "$INTERSECT_X" "$INTERSECT_Z" "$START_X" "$START_Z")
+				trace "Intersection at ($INTERSECT_X, $INTERSECT_Z) -> $DISTANCE_TO_START"
 
 				if [ "$INTERSECTION_DISTANCE" -eq 0 ] || [ "$DISTANCE_TO_START" -lt "$INTERSECTION_DISTANCE" ]; then
 					INTERSECTION_DISTANCE=$DISTANCE_TO_START

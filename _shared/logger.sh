@@ -17,7 +17,7 @@ log() {
 }
 
 fatal() {
-	if ! [ -z "$LOGLVL" ] && [ $LOGLVL -ge $LVLFATAL ]; then
+	if [ -n "$LOGLVL" ] && [ $LOGLVL -ge $LVLFATAL ]; then
 		log "FATAL" "$@"
 	fi
 
@@ -25,31 +25,36 @@ fatal() {
 }
 
 warning() {
-	if ! [ -z "$LOGLVL" ] && [ $LOGLVL -ge $LVLERROR ]; then
+	if [ -n "$LOGLVL" ] && [ $LOGLVL -ge $LVLERROR ]; then
 		log "ERR" "$@"
 	fi
 }
 
 warning() {
-	if ! [ -z "$LOGLVL" ] && [ $LOGLVL -ge $LVLWARNING ]; then
+	if [ -n "$LOGLVL" ] && [ $LOGLVL -ge $LVLWARNING ]; then
 		log "WARN" "$@"
 	fi
 }
 
 info() {
-	if ! [ -z "$LOGLVL" ] && [ $LOGLVL -ge $LVLINFO ]; then
+	if [ -n "$LOGLVL" ] && [ $LOGLVL -ge $LVLINFO ]; then
 		log "INFO" "$@"
 	fi
 }
 
 debug() {
-	if ! [ -z "$LOGLVL" ] && [ $LOGLVL -ge $LVLDEBUG ]; then
+	if [ -n "$LOGLVL" ] && [ $LOGLVL -ge $LVLDEBUG ]; then
 		log "DEBUG" "$@"
 	fi
 }
 
 trace() {
-	if ! [ -z "$LOGLVL" ] && [ $LOGLVL -ge $LVLTRACE ]; then
+	if [ -n "$LOGLVL" ] && [ $LOGLVL -ge $LVLTRACE ]; then
 		log "TRACE" "$@"
 	fi
+}
+
+trace_slow() {
+	trace "$@"
+	sleep 1
 }
