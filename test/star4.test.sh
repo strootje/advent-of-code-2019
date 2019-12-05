@@ -8,7 +8,7 @@
 # Variables
 # -none-
 
-test_RunSearchForOutcome_ExpectedOutcome_IsFound() {
+run_test() {
 	# Arrange
 	DATA=$1
 	EXP=$2
@@ -23,20 +23,16 @@ test_RunSearchForOutcome_ExpectedOutcome_IsFound() {
 	fi
 }
 
-run_main() {
+test_RunSearchForOutcome_ExpectedOutcome3654868_IsFoundAt1202() {
 	INITIAL_NOUN=12
 	INITIAL_VERB=2
-	DATA1=3654868
-	info "- test_RunSearchForOutcome_ExpectedOutcome_IsFound $DATA1 1202"
-	test_RunSearchForOutcome_ExpectedOutcome_IsFound $DATA1 1202
-
-	INITIAL_NOUN=70
-	INITIAL_VERB=14
-	DATA2=19690720
-	info "- test_RunSearchForOutcome_ExpectedOutcome_IsFound $DATA2 7014"
-	test_RunSearchForOutcome_ExpectedOutcome_IsFound $DATA2 7014
+	DATA=3654868
+	run_test $DATA 1202
 }
 
-case "$1" in
-	"run") run_main;;
-esac
+test_RunSearchForOutcome_ExpectedOutcome19690720_IsFoundAt7014() {
+	INITIAL_NOUN=70
+	INITIAL_VERB=14
+	DATA=19690720
+	run_test $DATA 7014
+}

@@ -4,7 +4,7 @@
 . ./_shared/logger.sh
 
 # Variables
-# -none-
+declare -A CALLED=()
 
 run_main() {
 	TESTS="./test/*.test.sh"
@@ -13,13 +13,28 @@ run_main() {
 		info ""
 		info "Running suite '$test'"
 		# shellcheck disable=SC1090
-		. "$test" run
+		. "$test"
 
-		# FUNCS=("$(declare -F)")
-		# for func in "${FUNCS[@]}"; do
-		# 	NAME=${func}
-		# 	echo "$NAME"
-		# done
+		FUNCS=$(declare -F)
+		IFS=$'\n'
+		while read -r declared_func; do
+			FUNC_NAME=${declared_func:11}
+			FUNC_NAME_TEST=${FUNC_NAME:0:5}
+
+			IS_CALLED=${CALLED[$FUNC_NAME]}
+			if [ "$FUNC_NAME_TEST" == "test_" ] && [ "$IS_CALLED" != "1" ]; then
+				tmp "$FUNC_NAME"
+
+				if $FUNC_NAME; then
+					info "PASSED $FUNC_NAME"
+				else
+					info "FAILED $FUNC_NAME"
+				fi
+			fi
+
+			CALLED[$FUNC_NAME]=1
+		done <<< "$FUNCS"
+		unset IFS
 	done
 }
 

@@ -33,6 +33,7 @@ run_main() {
 
 	NUM=0
 	TOTAL_FUEL=0
+	
 	while read -r line; do
 		calculate_fuel_recursive "$line"
 		CALCULATED=$(calculate_fuel_recursive "$line")

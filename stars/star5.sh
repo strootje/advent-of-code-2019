@@ -298,8 +298,8 @@ run_main() {
 	info "Loading wires into memory"
 	get_raw_wires "$RAW"
 
-	DISTANCE=$(calculate_closests_intersection_to_start "RED" "GREEN")
-	info "Distance='$DISTANCE'"
+	# DISTANCE=$(calculate_closests_intersection_to_start "RED" "GREEN")
+	# info "Distance='$DISTANCE'"
 }
 
 case "$1" in

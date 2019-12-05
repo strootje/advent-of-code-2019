@@ -7,7 +7,7 @@
 # Variables
 # -none-
 
-test_CalculateClosestIntersectionToStart() {
+run_test() {
 	# Arrange
 	RAWDATA=$1
 	EXPECTED_DISTANCE=$2
@@ -24,18 +24,14 @@ test_CalculateClosestIntersectionToStart() {
 	fi
 }
 
-run_main() {
-	DATA1="R75,D30,R83,U83,L12,D49,R71,U7,L72
+test_CalculateClosestIntersectionToStart1_Is159() {
+	DATA="R75,D30,R83,U83,L12,D49,R71,U7,L72
 U62,R66,U55,R34,D71,R55,D58,R83"
-	info "- test_CalculateClosestIntersectionToStart \$DATA1 159"
-	test_CalculateClosestIntersectionToStart "$DATA1" "159"
-
-	DATA2="R98,U47,R26,D63,R33,U87,L62,D20,R33,U53,R51
-U98,R91,D20,R16,D67,R40,U7,R15,U6,R7"
-	info "- test_CalculateClosestIntersectionToStart \$DATA2 135"
-	test_CalculateClosestIntersectionToStart "$DATA2" "135"
+	run_test "$DATA" 159
 }
 
-case "$1" in
-	"run") run_main;;
-esac
+test_CalculateClosestIntersectionToStart2_Is135() {
+	DATA="R98,U47,R26,D63,R33,U87,L62,D20,R33,U53,R51
+U98,R91,D20,R16,D67,R40,U7,R15,U6,R7"
+	run_test "$DATA" 135
+}

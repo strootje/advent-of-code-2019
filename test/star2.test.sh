@@ -7,7 +7,7 @@
 # Variables
 # -none-
 
-test_CalculateFuelRecursive_Mass_IsFuel() {
+run_test() {
 	# Arrange
 	MASS=$1
 	FUEL=$2
@@ -21,17 +21,14 @@ test_CalculateFuelRecursive_Mass_IsFuel() {
 	fi
 }
 
-run_main() {
-	info "- test_CalculateFuelRecursive_Mass_IsFuel 14 2"
-	test_CalculateFuelRecursive_Mass_IsFuel 14 2
-
-	info "- test_CalculateFuelRecursive_Mass_IsFuel 1969 966"
-	test_CalculateFuelRecursive_Mass_IsFuel 1969 966
-
-	info "- test_CalculateFuelRecursive_Mass_IsFuel 100756 50346"
-	test_CalculateFuelRecursive_Mass_IsFuel 100756 50346
+test_CalculateFuelRecursive_Mass14_IsFuel2() {
+	run_test 14 2
 }
 
-case "$1" in
-	"run") run_main;;
-esac
+test_CalculateFuelRecursive_Mass1969_IsFuel966() {
+	run_test 1969 966
+}
+
+test_CalculateFuelRecursive_Mass100756_IsFuel50346() {
+	run_test 100756 50346
+}

@@ -16,6 +16,10 @@ log() {
 	printf "[ %s ] %s\n" "$@" >&2
 }
 
+tmp() {
+	printf "[ ?? ] %s\r" "$@" >&2
+}
+
 fatal() {
 	if [ -n "$LOGLVL" ] && [ $LOGLVL -ge $LVLFATAL ]; then
 		log "FATAL" "$@"

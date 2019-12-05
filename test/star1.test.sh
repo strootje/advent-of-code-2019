@@ -7,7 +7,7 @@
 # Variables
 # -none-
 
-test_CalculateFuel_Mass_IsFuel() {
+run_test() {
 	# Arrange
 	MASS=$1
 	FUEL=$2
@@ -21,20 +21,18 @@ test_CalculateFuel_Mass_IsFuel() {
 	fi
 }
 
-run_main() {
-	info "- test_CalculateFuel_Mass_IsFuel 12 2"
-	test_CalculateFuel_Mass_IsFuel 12 2
-
-	info "- test_CalculateFuel_Mass_IsFuel 14 2"
-	test_CalculateFuel_Mass_IsFuel 14 2
-
-	info "- test_CalculateFuel_Mass_IsFuel 1969 654"
-	test_CalculateFuel_Mass_IsFuel 1969 654
-
-	info "- test_CalculateFuel_Mass_IsFuel 100756 33583"
-	test_CalculateFuel_Mass_IsFuel 100756 33583
+test_CalculateFuel_Mass12_IsFuel2() {
+	run_test 12 2
 }
 
-case "$1" in
-	"run") run_main;;
-esac
+test_CalculateFuel_Mass14_IsFuel2() {
+	run_test 14 2
+}
+
+test_CalculateFuel_Mass1969_IsFuel654() {
+	run_test 1969 654
+}
+
+test_CalculateFuel_Mass100756_IsFuel33583() {
+	run_test 100756 33583
+}
