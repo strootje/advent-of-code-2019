@@ -20,15 +20,16 @@ run_main() {
 		while read -r declared_func; do
 			FUNC_NAME=${declared_func:11}
 			FUNC_NAME_TEST=${FUNC_NAME:0:5}
+			FUNC_NAME_DESC=${FUNC_NAME:5}
 
 			IS_CALLED=${CALLED[$FUNC_NAME]}
 			if [ "$FUNC_NAME_TEST" == "test_" ] && [ "$IS_CALLED" != "1" ]; then
-				tmp "$FUNC_NAME"
+				tmp "Test [PENDING]		$FUNC_NAME_DESC"
 
 				if $FUNC_NAME; then
-					info "PASSED $FUNC_NAME"
+					info "Test [PASSED]		$FUNC_NAME_DESC"
 				else
-					info "FAILED $FUNC_NAME"
+					info "Test [FAILED]		$FUNC_NAME_DESC"
 				fi
 			fi
 

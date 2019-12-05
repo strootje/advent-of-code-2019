@@ -223,7 +223,7 @@ calculate_intersection() {
 			echo ""
 		else
 			trace "Lines cross at ($WIRE1_BEGIN_Z, $WIRE2_BEGIN_X)"
-			echo "$WIRE1_BEGIN_Z,$WIRE2_BEGIN_X"
+			echo "$WIRE2_BEGIN_X,$WIRE1_BEGIN_Z"
 		fi
 	else
 		trace "Lines are parrallel and will never intersect"
