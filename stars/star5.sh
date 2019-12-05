@@ -6,7 +6,7 @@
 . ./_shared/download.sh
 
 # Variables
-INPUT_URL="https://adventofcode.com/2019/day/1/input"
+INPUT_URL="https://adventofcode.com/2019/day/3/input"
 
 declare -a WIRE_NAMES=("RED" "GREEN" "YELLOW")
 declare -A WIRES=()
