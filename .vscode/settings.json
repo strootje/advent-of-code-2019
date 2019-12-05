@@ -1,5 +1,9 @@
 {
     "shellcheck.useWorkspaceRootAsCwd": true,
     "shellcheck.exclude": ["SC1017"],
-    "shellcheck.customArgs": ["-x"]
+    "shellcheck.customArgs": [
+        "-x"
+    ],
+    "files.eol": "\n",
+    "files.insertFinalNewline": true
 }
