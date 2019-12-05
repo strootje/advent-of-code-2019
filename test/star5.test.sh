@@ -20,7 +20,7 @@ run_test() {
 
 	# Assert
 	if [ "$RESULT" -ne "$EXPECTED_DISTANCE" ]; then
-		fatal "Distance does not equel $EXPECTED_DISTANCE"
+		fatal "Distance does not equal $EXPECTED_DISTANCE; instead is '$RESULT'"
 	fi
 }
 

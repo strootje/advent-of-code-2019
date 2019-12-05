@@ -6,7 +6,6 @@
 . ./_shared/download.sh
 
 # Variables
-LOGLVL=$LVLTRACE
 INPUT_URL="https://adventofcode.com/2019/day/1/input"
 
 declare -a WIRE_NAMES=("RED" "GREEN" "YELLOW")
@@ -252,41 +251,56 @@ calculate_closests_intersection_to_start() {
 		WIRE1_BEGIN_Z=$(get_wire_line_stat "$WIRE1_COLOR" "$WIRE1_INDEX" "z1")
 		WIRE1_FINAL_X=$(get_wire_line_stat "$WIRE1_COLOR" "$WIRE1_INDEX" "x2")
 		WIRE1_FINAL_Z=$(get_wire_line_stat "$WIRE1_COLOR" "$WIRE1_INDEX" "z2")
+		
+		WIRE1_LINE_A=$(calculate_manhattan "$WIRE1_BEGIN_X" "$WIRE1_BEGIN_Z" "$START_X" "$START_Z")
+		WIRE1_LINE_B=$(calculate_manhattan "$WIRE1_FINAL_X" "$WIRE1_FINAL_Z" "$START_X" "$START_Z")
 
-		WIRE2_INDEX=0
-		while [ "$WIRE2_INDEX" -lt $WIRE2_LINES ]; do
-			KEY="$WIRE1_INDEX,$WIRE2_INDEX"
-			KEY_REVERSE="$WIRE2_INDEX,$WIRE1_INDEX"
+		if [ "$INTERSECTION_DISTANCE" -ne 0 ] && { [ "$WIRE1_LINE_A" -ge "$INTERSECTION_DISTANCE" ] && [ "$WIRE1_LINE_B" -ge "$INTERSECTION_DISTANCE" ]; }; then
+			debug "Skipping Wire '$WIRE1_COLOR':'$WIRE1_INDEX'"
+		else
+			WIRE2_INDEX=0
+			while [ "$WIRE2_INDEX" -lt $WIRE2_LINES ]; do
+				KEY="$WIRE1_INDEX,$WIRE2_INDEX"
+				KEY_REVERSE="$WIRE2_INDEX,$WIRE1_INDEX"
 
-			IS_CHECKED=${CHECKED[KEY]}
-			if [ "$IS_CHECKED" == "1" ]; then
-				trace "Skipping Wire '$WIRE1_COLOR':'$WIRE1_INDEX' to '$WIRE2_COLOR':'$WIRE2_INDEX'"
-			else
-				trace "Checking Wire '$WIRE1_COLOR':'$WIRE1_INDEX' to '$WIRE2_COLOR':'$WIRE2_INDEX'"
-				WIRE2_BEGIN_X=$(get_wire_line_stat "$WIRE2_COLOR" "$WIRE2_INDEX" "x1")
-				WIRE2_BEGIN_Z=$(get_wire_line_stat "$WIRE2_COLOR" "$WIRE2_INDEX" "z1")
-				WIRE2_FINAL_X=$(get_wire_line_stat "$WIRE2_COLOR" "$WIRE2_INDEX" "x2")
-				WIRE2_FINAL_Z=$(get_wire_line_stat "$WIRE2_COLOR" "$WIRE2_INDEX" "z2")
+				IS_CHECKED=${CHECKED[$KEY]}
+				if [ "$IS_CHECKED" == "1" ]; then
+					debug "Skipping Wire '$WIRE1_COLOR':'$WIRE1_INDEX' to '$WIRE2_COLOR':'$WIRE2_INDEX'"
+				else
+					WIRE2_LINE_A=$(calculate_manhattan "$WIRE2_BEGIN_X" "$WIRE2_BEGIN_Z" "$START_X" "$START_Z")
+					WIRE2_LINE_B=$(calculate_manhattan "$WIRE2_FINAL_X" "$WIRE2_FINAL_Z" "$START_X" "$START_Z")
 
-				INTERSECTION=$(calculate_intersection "$WIRE1_BEGIN_X" "$WIRE1_BEGIN_Z" "$WIRE1_FINAL_X" "$WIRE1_FINAL_Z" "$WIRE2_BEGIN_X" "$WIRE2_BEGIN_Z" "$WIRE2_FINAL_X" "$WIRE2_FINAL_Z")
-				INTERSECT_X=${INTERSECTION%%,*}
-				INTERSECT_Z=${INTERSECTION##*,}
+					if [ "$INTERSECTION_DISTANCE" -ne 0 ] && { [ "$WIRE1_LINE_A" -ge "$INTERSECTION_DISTANCE" ] && [ "$WIRE1_LINE_B" -ge "$INTERSECTION_DISTANCE" ] && [ "$WIRE2_LINE_A" -ge "$INTERSECTION_DISTANCE" ] && [ "$WIRE2_LINE_B" -ge "$INTERSECTION_DISTANCE" ]; }; then
+						debug "Skipping Wire  '$WIRE1_COLOR':'$WIRE1_INDEX' to '$WIRE2_COLOR':'$WIRE2_INDEX'; ('$WIRE2_LINE_A' & '$WIRE2_LINE_B') >= '$INTERSECTION_DISTANCE'"
+					else
+						debug "Checking Wire '$WIRE1_COLOR':'$WIRE1_INDEX' to '$WIRE2_COLOR':'$WIRE2_INDEX'"
+						WIRE2_BEGIN_X=$(get_wire_line_stat "$WIRE2_COLOR" "$WIRE2_INDEX" "x1")
+						WIRE2_BEGIN_Z=$(get_wire_line_stat "$WIRE2_COLOR" "$WIRE2_INDEX" "z1")
+						WIRE2_FINAL_X=$(get_wire_line_stat "$WIRE2_COLOR" "$WIRE2_INDEX" "x2")
+						WIRE2_FINAL_Z=$(get_wire_line_stat "$WIRE2_COLOR" "$WIRE2_INDEX" "z2")
 
-				if [ -n "$INTERSECTION" ]; then
-					DISTANCE_TO_START=$(calculate_manhattan "$INTERSECT_X" "$INTERSECT_Z" "$START_X" "$START_Z")
-					trace "Intersection at ($INTERSECT_X, $INTERSECT_Z) -> $DISTANCE_TO_START"
+						INTERSECTION=$(calculate_intersection "$WIRE1_BEGIN_X" "$WIRE1_BEGIN_Z" "$WIRE1_FINAL_X" "$WIRE1_FINAL_Z" "$WIRE2_BEGIN_X" "$WIRE2_BEGIN_Z" "$WIRE2_FINAL_X" "$WIRE2_FINAL_Z")
+						INTERSECT_X=${INTERSECTION%%,*}
+						INTERSECT_Z=${INTERSECTION##*,}
 
-					if [ "$INTERSECTION_DISTANCE" -eq 0 ] || [ "$DISTANCE_TO_START" -lt "$INTERSECTION_DISTANCE" ]; then
-						INTERSECTION_DISTANCE=$DISTANCE_TO_START
+						if [ -n "$INTERSECTION" ]; then
+							DISTANCE_TO_START=$(calculate_manhattan "$INTERSECT_X" "$INTERSECT_Z" "$START_X" "$START_Z")
+							trace "Intersection at ($INTERSECT_X, $INTERSECT_Z) -> $DISTANCE_TO_START"
+
+							if [ "$INTERSECTION_DISTANCE" -eq 0 ] || [ "$DISTANCE_TO_START" -lt "$INTERSECTION_DISTANCE" ]; then
+								INTERSECTION_DISTANCE=$DISTANCE_TO_START
+								debug "Setting INTERSECTION_DISTANCE='$INTERSECTION_DISTANCE'"
+							fi
+						fi
 					fi
+					
+					CHECKED[$KEY]=1
+					CHECKED[$KEY_REVERSE]=1
 				fi
 
-				CHECKED[$KEY]=1
-				CHECKED[$KEY_REVERSE]=1
-			fi
-
-			WIRE2_INDEX=$((WIRE2_INDEX + 1))
-		done
+				WIRE2_INDEX=$((WIRE2_INDEX + 1))
+			done
+		fi
 
 		WIRE1_INDEX=$((WIRE1_INDEX + 1))
 	done
